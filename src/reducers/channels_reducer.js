@@ -1,8 +1,8 @@
-import { setChannels } from '../actions';
+import { SET_CHANNELS } from '../actions';
 
 const channelsReducer = (state = ['general', 'react', 'code', 'job'], action) => {
   switch (action.type) {
-    case 'SET_CHANNELS':
+    case SET_CHANNELS:
       return action.payload;
     default:
       return state;

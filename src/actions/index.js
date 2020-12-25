@@ -1,8 +1,16 @@
 // TODO: add and export your own actions
-export function setMessages() {
+export function fetchMessages(channel) {
+  const promise = fetch(`https://wagon-chat.herokuapp.com/${channel}/messages`);
   return {
     type: 'SET_MESSAGES',
-    payload: []
+    payload: promise
+  };
+}
+
+export function createMessage(channel, author, content) {
+  return {
+    type: 'CREATE_MESSAGE',
+    payload: [channel, author, content]
   };
 }
 
