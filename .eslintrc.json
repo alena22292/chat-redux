@@ -6,6 +6,7 @@
     "quotes": "off",
     "react/prop-types": 0,
     "arrow-body-style": 0,
+    "no-alert": 0,
     "space-before-function-paren": 0
   },
   "env": {
