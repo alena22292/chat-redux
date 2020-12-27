@@ -1,38 +1,48 @@
 import React, { Component } from 'react';
-import { setChannels, selectedChannel } from '../actions';
-
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
+import { selectChannel, fetchMessages } from '../actions';
+
 class ChannelList extends Component {
-  componentWillMount() {
-    this.props.setChannels();
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.selectedChannel !== this.props.selectedChannel) {
+      this.props.fetchMessages(nextProps.selectedChannel);
+    }
   }
-  handleClick(e) {
-    this.props.selectedChannel();
+
+  handleClick = (channel) => {
+    this.props.selectChannel(channel);
+  }
+  renderChannel = (channel) => {
+    return (
+      <li
+        onClick={() => this.handleClick(channel)}
+        key={channel}
+        className={channel === this.props.selectedChannel ? 'active' : null}
+        role="presentation"
+      >
+        #{channel}
+      </li>
+    );
   }
 
   render() {
-    const channelList = this.props.channels(channel => {
-      <div onCLick={this.handleClick}>
-        {channel}
-      </div>
-    });
     return (
-    <div>
-      { channelList }
-    </div>
+      <div className="channels-container">
+        <ul>
+          {this.props.channels.map(this.renderChannel)}
+        </ul>
+      </div>
     );
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
-  {
-    setChannels: setChannels,
-    selectedChannel: selectedChannel
-  },
-  dispatc);
+    { selectChannel, fetchMessages },
+    dispatch
+  );
 }
 
 function mapReduxStateToPtops(reduxState) {
@@ -42,4 +52,4 @@ function mapReduxStateToPtops(reduxState) {
   };
 }
 
-export default connect(mapReduxStateToPtops, mapDispatchToProp)(ChannelList);
+export default connect(mapReduxStateToPtops, mapDispatchToProps)(ChannelList);

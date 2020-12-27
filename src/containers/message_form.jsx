@@ -1,39 +1,61 @@
 import React, { Component } from 'react';
-// import { bindActionCreators } from 'redux';
-// import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+
+import { createMessage } from '../actions';
 
 class MessageForm extends Component {
-  handleChange(event) {
-    this.setState({value: event.target.value});
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: ''
+    };
   }
-  handleSubmit(event) {
-    alert('Your message is: ' + this.state.value);
+
+  componentDidMount() {
+    this.messageBox.focus();
+  }
+
+  handleChange = (event) => {
+    this.setState({ value: event.target.value });
+  }
+
+  handleSubmit = (event) => {
+    // alert('Your message is: ' + this.state.value);
     event.preventDefault();
+    this.props.createMessage(this.props.selectedChannel, this.props.currentUser, this.state.value);
+    this.setState({ value: '' });
   }
+
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
-        <label>
-          Text:
-          <textarea value={this.state.value} onChange={this.handleChange} />
-        </label>
-        <input type="submit" value="Submit" />
+      <form onSubmit={this.handleSubmit} className="channel-editor">
+        <input
+          ref={(input) => { this.messageBox = input; }}
+          type="text"
+          value={this.state.value}
+          className="form-control"
+          autoComplete="off"
+          onChange={this.handleChange}
+        />
+        <button type="submit">Send</button>
       </form>
     );
   }
 }
 
-// function mapDispatchToProps(dispatch) {
-//   return bindActionCreators(
-//     { fetchMessages: fetchMessages },
-//     dispatch
-//   );
-// }
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(
+    { createMessage },
+    dispatch
+  );
+}
 
-// function mapStateToProps(reduxState) {
-//   return {
-//     messages: reduxState.messages
-//   };
-// }
+function mapStateToProps(reduxState) {
+  return {
+    currentUser: reduxState.currentUser,
+    selectedChannel: reduxState.selectedChannel
+  };
+}
 
-export default MessageForm;
+export default connect(mapStateToProps, mapDispatchToProps)(MessageForm);

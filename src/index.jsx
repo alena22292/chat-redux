@@ -13,9 +13,10 @@ import '../assets/stylesheets/application.scss';
 
 import messagesReducer from './reducers/messages_reducer';
 import selectedChannelReducer from './reducers/selected_channel_reducer';
-import createMessageReducer from './reducers/create_message_reducer';
 
 // State and reducers
+const indentityReducer = (state = null) => state;
+
 const initialState = {
   messages: [],
   channels: ['general', 'react', 'paris'],
@@ -23,16 +24,12 @@ const initialState = {
   selectedChannel: 'general'
 };
 
-const indentityReducer = (state = null) => state;
-
 const reducers = combineReducers({
   messages: messagesReducer,
   channels: indentityReducer,
   selectedChannel: selectedChannelReducer,
-  currentUser: indentityReducer,
-  newMessage: createMessageReducer
+  currentUser: indentityReducer
 });
-
 
 const middlewares = applyMiddleware(reduxPromise, logger);
 

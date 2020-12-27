@@ -1,6 +1,6 @@
 // TODO: add and export your own actions
 export const SET_MESSAGES = 'SET_MESSAGES';
-export const SELECTED_CHANNEL = 'SELECTED_CHANNEL';
+export const SELECT_CHANNEL = 'SELECT_CHANNEL';
 export const CREATE_MESSAGE = 'CREATE_MESSAGE';
 
 export function fetchMessages(channel) {
@@ -29,9 +29,9 @@ export function createMessage(channel, author, content) {
   };
 }
 
-export function selectedChannel(channel) {
+export function selectChannel(channel) {
   return {
-    type: SELECTED_CHANNEL,
+    type: SELECT_CHANNEL,
     payload: channel
   };
 }

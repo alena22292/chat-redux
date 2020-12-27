@@ -1,19 +1,37 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+
 import { fetchMessages } from '../actions';
 import Message from '../components/message';
+import MessageForm from './message_form';
 
 class MessageList extends Component {
-  componentDidMount() {
-    // TODO: dispatch an action to load flats!
+  componentWillMount() {
     this.props.fetchMessages();
   }
+  componentDidMount() {
+    this.refresher = setInterval(this.fetchMessages, 5000);
+  }
+  componentDidUpdate() {
+    this.list.scrollTop = this.list.scrollHeight;
+  }
+  componentWillUnmount() {
+    clearInterval(this.refresher);
+  }
+  fetchMessages = () => {
+    this.props.fetchMessages(this.props.selectedChannel);
+  }
+
   render() {
-    const messages = this.props.dataMessage.map(message => <Message key={message.content} messageContent={message} />);
+    const messages = this.props.messages.map(message => <Message key={message.id} message={message} />);
     return (
-      <div>
-        { messages }
+      <div className="channel-container">
+        <div className="channel-title">Channel #{this.props.selectedChannel}</div>
+        <div className="channel-content" ref={(list) => { this.list = list; }}>
+          { messages }
+        </div>
+        <MessageForm />
       </div>
     );
   }
@@ -21,14 +39,15 @@ class MessageList extends Component {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
-    { fetchMessages: fetchMessages },
+    { fetchMessages },
     dispatch
   );
 }
 
-function mapStateToProps(reduxState) {
+function mapStateToProps(state) {
   return {
-    messages: reduxState.messages
+    messages: state.messages,
+    selectedChannel: state.selectedChannel
   };
 }
 

@@ -4,9 +4,10 @@ class Message extends Component {
   render() {
     return (
       <div className="message">
-        TODO
+        <h3>{this.props.message.author}</h3>
+        <p>{this.props.message.content}</p>
       </div>
-    )
+    );
   }
 }
 
