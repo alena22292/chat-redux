@@ -29,17 +29,19 @@ class MessageForm extends Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit} className="channel-editor">
-        <input
-          ref={(input) => { this.messageBox = input; }}
-          type="text"
-          value={this.state.value}
-          className="form-control"
-          autoComplete="off"
-          onChange={this.handleChange}
-        />
-        <button type="submit">Send</button>
-      </form>
+      <div>
+        <form onSubmit={this.handleSubmit} className="channel-editor">
+          <input
+            ref={(input) => { this.messageBox = input; }}
+            type="text"
+            value={this.state.value}
+            className="form-control"
+            autoComplete="off"
+            onChange={this.handleChange}
+          />
+          <button type="submit">Send</button>
+        </form>
+      </div>
     );
   }
 }
