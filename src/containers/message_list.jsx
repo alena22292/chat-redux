@@ -11,7 +11,7 @@ class MessageList extends Component {
     this.props.fetchMessages();
   }
   componentDidMount() {
-    this.refresher = setInterval(this.fetchMessages, 5000);
+    // this.refresher = setInterval(this.fetchMessages, 5000);
   }
   componentDidUpdate() {
     this.list.scrollTop = this.list.scrollHeight;
@@ -20,18 +20,18 @@ class MessageList extends Component {
     clearInterval(this.refresher);
   }
   fetchMessages = () => {
-    this.props.fetchMessages(this.props.selectedChannel);
+    this.props.fetchMessages(this.props.channelFromParams);
   }
 
   render() {
     const messages = this.props.messages.map(message => <Message key={message.id} message={message} />);
     return (
       <div className="channel-container">
-        <div className="channel-title">Channel #{this.props.selectedChannel}</div>
+        <div className="channel-title">Channel #{this.props.channelFromParams}</div>
         <div className="channel-content" ref={(list) => { this.list = list; }}>
           { messages }
         </div>
-        <MessageForm />
+        <MessageForm channel={this.props.channelFromParams} />
       </div>
     );
   }
@@ -47,7 +47,6 @@ function mapDispatchToProps(dispatch) {
 function mapStateToProps(state) {
   return {
     messages: state.messages,
-    selectedChannel: state.selectedChannel
   };
 }
 

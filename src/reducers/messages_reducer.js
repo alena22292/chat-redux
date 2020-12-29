@@ -1,4 +1,4 @@
-import { SET_MESSAGES, CREATE_MESSAGE, SELECT_CHANNEL } from '../actions';
+import { SET_MESSAGES, CREATE_MESSAGE } from '../actions';
 
 export default function(state = null, action) {
   switch (action.type) {
@@ -9,9 +9,6 @@ export default function(state = null, action) {
       const updateState = state.slice(0);
       updateState.push(action.payload);
       return updateState;
-    }
-    case SELECT_CHANNEL: {
-      return [];
     }
     default:
       return state;
